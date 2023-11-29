@@ -1,0 +1,103 @@
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+}
+
+body{
+    background-image: url("./bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    position: relative;
+}
+
+.container{
+    width: 100%;
+    padding: 100px;
+    display: flex;
+    gap: 20px;
+}
+
+.subcontainer{
+    width: 30%;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.addButton{
+    margin-top: 30px;
+    display: flex;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.addButton:hover{
+    background-color: #e6e6e6;
+}
+
+.AddTask{
+    top: 0;
+    height: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    justify-content: center;
+    display: none;
+    align-items: center;
+}
+
+.show{
+    display: flex !important;
+}
+
+
+
+.formContainer{
+    gap: 15px;
+    display: flex;
+    width: 400px;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+input{
+    border-radius: 3px;
+    border: 1px solid grey;
+    height: 26px;
+}
+
+select{
+    height: 30px;
+    padding: 5px;
+}
+
+button{
+    background-color: black;
+    color: white;
+    border: none;
+    height: 30px;
+    margin-top: 50px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.todo-container{
+    background-color: white;
+}
