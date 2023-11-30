@@ -8,38 +8,38 @@
   </head>
   <body>
     <div class="container">
-      <div class="subcontainer">
-        <h2>To do</h2>
-        <div id='todoDiv'class="todo-container">
-          
+      <div class="layout">
+        <div class="subcontainer">
+          <h2>To do</h2>
+          <div id="todoDiv" class="todo-container"></div>
+          <div id="todoButton" class="addButton">
+            <img src="add.svg" alt="" />
+            <h3>Add card</h3>
+          </div>
         </div>
-        <div id='todoButton' class="addButton">
-          <img src="add.svg" alt="">
-          <h3>Add card</h3>
+        <div class="subcontainer">
+          <h2>In Progress</h2>
+          <div id="inProgressDiv" class="todo-container"></div>
+          <div id="inProgressButton" class="addButton">
+            <img src="add.svg" alt="" />
+            <h3>Add card</h3>
+          </div>
         </div>
-      </div>
-      <div class="subcontainer">
-        <h2>In Progress</h2>
-        <div id='inProgressDiv'class="todo-container"></div>
-        <div id='inProgressButton' class="addButton">
-          <img src="add.svg" alt="">
-          <h3>Add card</h3>
+        <div class="subcontainer">
+          <h2>Stuck</h2>
+          <div id="stuckDiv" class="todo-container"></div>
+          <div id="stuckButton" class="addButton">
+            <img src="add.svg" alt="" />
+            <h3>Add card</h3>
+          </div>
         </div>
-      </div>
-      <div class="subcontainer">
-        <h2>Stuck</h2>
-        <div id='stuckDiv'class="todo-container"></div>
-        <div id='stuckButton' class="addButton">
-          <img src="add.svg" alt="">
-          <h3>Add card</h3>
-        </div>
-      </div>
-      <div class="subcontainer">
-        <h2>Done</h2>
-        <div id='doneDiv'class="todo-container"></div>
-        <div id='doneButton' class="addButton">
-          <img src="add.svg" alt="">
-          <h3>Add card</h3>
+        <div class="subcontainer">
+          <h2>Done</h2>
+          <div id="doneDiv" class="todo-container"></div>
+          <div id="doneButton" class="addButton">
+            <img src="add.svg" alt="" />
+            <h3>Add card</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -48,15 +48,21 @@
         <h1>Add Task</h1>
         <form class="form">
           <label for="title">Title</label>
-          <input type="text" required name="title" id="title">
+          <input type="text" required name="title" id="title" />
           <label for="description">Description</label>
-          <textarea name="message" required rows="4" id="description" cols="50"></textarea>
+          <textarea
+            name="message"
+            required
+            rows="4"
+            id="description"
+            cols="50"
+          ></textarea>
           <label for="status">Status</label>
           <select name="status" id="status">
             <option value="todoOption">To do</option>
             <option value="inprogressOption">In progress</option>
-            <option value="statusOption">Stuck</option>
-            <option value="audiOption">Done</option>
+            <option value="stuckOption">Stuck</option>
+            <option value="doneOption">Done</option>
           </select>
           <label for="priority">Priority</label>
           <select name="priority" id="priority">
