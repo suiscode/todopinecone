@@ -19,12 +19,17 @@ const inProgressDiv = document.getElementById("inProgressDiv");
 const stuckDiv = document.getElementById("stuckDiv");
 const doneDiv = document.getElementById("doneDiv");
 
+let editMode = false;
+let editModeTaskId = null;
+let editModePosition = null;
+
+
+
 // Add card OnClick
 // Showing Form on click
 todoButton.addEventListener("click", () => {
   AddTask.classList.add("show");
   statusOption.options[0].selected = true;
-  console.log();
 });
 inProgressButton.addEventListener("click", () => {
   AddTask.classList.add("show");
@@ -66,83 +71,138 @@ let todoArray = [
   },
 ];
 
+
+
+const render = (renderTarget, item) => {
+  return renderTarget + `<div class="containerOfTodo">
+   <div class="checkcontainer">
+   <h1 class="checksvg"> ✓ </h1>
+   <div class="infobox">
+     <h2>${item.title}</h2>
+     <h5>${item.description}</h5>
+     <p class="prioritybox">${item.priority}</p>
+   </div>
+   </div>
+   <div class="buttons">
+     <img src="delete.svg" alt="" onclick="deleteTask(${item.id}, ${item.position})" />
+     <img src="edit.svg" alt="" onclick="editTask(${item.id}, ${item.position})" />
+   </div>
+ </div>`;
+};
+
+const addToRender=()=>{
+  let todorender = "";
+  let inprogressrender = "";
+  let stuckrender = "";
+  let donerender = "";
+
+  for (let i = 0; i < todoArray.length; i++) {
+    todoArray[i][i].forEach((item) => {
+      if (item.stat == "todoOption") {
+        todorender = render(todorender, item);
+      } else if (item.stat == "inprogressOption") {
+        inprogressrender = render(inprogressrender, item);
+      } else if (item.stat == "stuckOption") {
+        stuckrender = render(stuckrender, item);
+      } else {
+        donerender = render(donerender, item);
+      }
+    });
+  }
+  todoDiv.innerHTML = todorender;
+  inProgressDiv.innerHTML = inprogressrender;
+  stuckDiv.innerHTML = stuckrender;
+  doneDiv.innerHTML = donerender;
+}
+
+
+
 let count = 1;
 
 //Form submit
 addTaskButton.addEventListener("click", (e) => {
-  const pushToArr = (i) => {
-    todoArray[i][i].push({
-      title: title.value,
-      description: description.value,
-      priority: priorityOption.value,
-      stat: statusOption.value,
-      id: count,
-      position: i
-    });
-  };
-
   e.preventDefault();
-  if (title.value !== "" && description.value !== "") {
-    AddTask.classList.remove("show");
-    if (statusOption.value == "todoOption") {
-      pushToArr(0);
-    } else if (statusOption.value == "inprogressOption") {
-      pushToArr(1);
-    } else if (statusOption.value == "statusOption") {
-      pushToArr(2);
-    } else {
-      pushToArr(3);
-    }
 
-    count++;
+  if (title.value !== "" && description.value !== "") {
+    if(editMode){
+        editExistingTask()
+    } else {
+      const pushToArr = (i) => {
+        todoArray[i][i].push({
+          title: title.value,
+          description: description.value,
+          priority: priorityOption.value,
+          stat: statusOption.value,
+          id: count,
+          position: i
+        });
+      };
+      AddTask.classList.remove("show");
+      if (statusOption.value == "todoOption") {
+        pushToArr(0);
+      } else if (statusOption.value == "inprogressOption") {
+        pushToArr(1);
+      } else if (statusOption.value == "statusOption") {
+        pushToArr(2);
+      } else {
+        pushToArr(3);
+      }
+      count++;
+    }
+    
+
     title.value = "";
     description.value = "";
+    addToRender()
 
-    let todorender = "";
-    let inprogressrender = "";
-    let stuckrender = "";
-    let donerender = "";
-
-    const render = (renderTarget, item) => {
-       return renderTarget + `<div class="containerOfTodo">
-        <div class="checkcontainer">
-        <h1 class="checksvg"> ✓ </h1>
-        <div class="infobox">
-          <h2>${item.title}</h2>
-          <h5>${item.description}</h5>
-          <p class="prioritybox">${item.priority}</p>
-        </div>
-        </div>
-        <div class="buttons">
-          <img src="delete.svg" alt="" onclick="logger(${item.id},${item.position})"/>
-          <img src="edit.svg" alt="" />
-        </div>
-      </div>`;
-    };
-    
-    for (let i = 0; i < todoArray.length; i++) {
-      todoArray[i][i].forEach((item) => {
-        if (item.stat == "todoOption") {
-          todorender = render(todorender, item);
-        } else if (item.stat == "inprogressOption") {
-          inprogressrender = render(inprogressrender, item);
-        } else if (item.stat == "stuckOption") {
-          stuckrender = render(stuckrender, item);
-        } else {
-          donerender = render(donerender, item);
-        }
-      });
-    }
-    todoDiv.innerHTML = todorender;
-    inProgressDiv.innerHTML = inprogressrender;
-    stuckDiv.innerHTML = stuckrender;
-    doneDiv.innerHTML = donerender;
   }
 });
 
-const logger = (id, position) => {
-  if(position == '0'){
-    console.log(todoArray[0][0]);
-    todoArray[0][0].filter(item=> item.id !==id)
-  }
-};
+// DELETE TASK
+
+function deleteTask(taskId, position) {
+  todoArray[position][position] = todoArray[position][position].filter(task => task.id !== taskId);
+  addToRender();
+}
+
+// EDIT TASK
+
+function editTask(taskId, position) {
+  const taskToEdit = todoArray[position][position].find(task => task.id === taskId);
+
+  editMode = true;
+  editModeTaskId = taskId;
+  editModePosition = position;
+
+  title.value = taskToEdit.title;
+  description.value = taskToEdit.description;
+  priorityOption.value = taskToEdit.priority;
+  statusOption.value = taskToEdit.stat;
+
+  AddTask.classList.add("show");
+}
+
+function editExistingTask() {
+  const editedTask = {
+    title: title.value,
+    description: description.value,
+    priority: priorityOption.value,
+    stat: statusOption.value,
+    id: editModeTaskId,
+    position: editModePosition
+  };
+
+  const tasks = todoArray[editedTask.position][editedTask.position];
+  const taskIndex = tasks.findIndex(task => task.id === editModeTaskId);
+  tasks.splice(taskIndex, 1, editedTask);
+
+  editMode = false;
+  editModeTaskId = null;
+  editModePosition = null;
+
+  title.value = "";
+  description.value = "";
+  addToRender();
+  AddTask.classList.remove("show");
+}
+

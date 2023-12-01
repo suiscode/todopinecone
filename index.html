@@ -58,19 +58,19 @@
             cols="50"
           ></textarea>
           <label for="status">Status</label>
-          <select name="status" id="status">
+          <select name="status" required id="status">
             <option value="todoOption">To do</option>
             <option value="inprogressOption">In progress</option>
             <option value="stuckOption">Stuck</option>
             <option value="doneOption">Done</option>
           </select>
           <label for="priority">Priority</label>
-          <select name="priority" id="priority">
+          <select name="priority" required id="priority">
             <option value="High">High</option>
-            <option value="Medium">Medium</option>
+            <option value="Mid">Medium</option>
             <option value="Low">Low</option>
           </select>
-          <button id="addTaskButton">Add task</button>
+          <button id="addTaskButton">Submit</button>
         </form>
       </div>
     </div>
